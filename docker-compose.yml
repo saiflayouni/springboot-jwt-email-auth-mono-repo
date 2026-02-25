@@ -1,0 +1,33 @@
+services:
+  postgres:
+    container_name: postgres-demo
+    image: postgres:13.2-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+      POSTGRES_DB: Demo
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - spring-demo
+    restart: unless-stopped
+
+  mail-dev:
+    container_name: mail-dev-demo
+    image: mailhog/mailhog:latest
+    ports:
+      - 8025:8025
+      - 1025:1025
+
+networks:
+  spring-demo:
+    driver: bridge
+
+
+
+volumes:
+  postgres:
+    driver: local
